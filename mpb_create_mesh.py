@@ -31,6 +31,7 @@ def create_mesh_with_n_vertices(vertex_set):
         pos_1_attr = mesh.attributes.new(name="pos_1", type='FLOAT_VECTOR', domain='POINT')
         for i in range(len(vertex_set[0])):
             pos_1_attr.data[i].vector = vertex_set[0][i]
+            mesh.vertices[i].co = pos_1_attr.data[i].vector
             
     if "pos_2" not in mesh.attributes:
         pos_2_attr = mesh.attributes.new(name="pos_2", type='FLOAT_VECTOR', domain='POINT')
@@ -44,6 +45,7 @@ def create_mesh_with_n_vertices(vertex_set):
     else:      
         for i in range(len(vertex_set[0]), len(mesh.vertices)):
             pos_1_attr.data[i].vector = random.choice(vertex_set[0])
+            mesh.vertices[i].co = pos_1_attr.data[i].vector
 
     print(f"Created object '{obj.name}' with {n} vertices.")
     
