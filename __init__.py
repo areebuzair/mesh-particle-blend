@@ -46,7 +46,7 @@ def create_blend(self, context, apply_transform=False):
                     world_coord = vertex.co
                 # print(world_coord)
                 vertices.append(world_coord)
-            vertex_set.append(vertices)
+            vertex_set.append(sorted(vertices, key=lambda v: v.x))
 
             # Hide in the viewport
             obj.hide_set(True)
