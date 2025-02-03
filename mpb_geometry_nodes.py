@@ -6,17 +6,21 @@ def mesh_particle_blend_node_group():
         return bpy.data.node_groups["Mesh Particle Blend"]
     mesh_particle_blend = bpy.data.node_groups.new(type = 'GeometryNodeTree', name = "Mesh Particle Blend")
 
-    mesh_particle_blend.is_modifier = True
+    mesh_particle_blend.color_tag = 'NONE'
+    mesh_particle_blend.description = ""
     
+
+    mesh_particle_blend.is_modifier = True
+
     #mesh_particle_blend interface
     #Socket Geometry
     geometry_socket = mesh_particle_blend.interface.new_socket(name = "Geometry", in_out='OUTPUT', socket_type = 'NodeSocketGeometry')
     geometry_socket.attribute_domain = 'POINT'
-    
+
     #Socket Geometry
     geometry_socket_1 = mesh_particle_blend.interface.new_socket(name = "Geometry", in_out='INPUT', socket_type = 'NodeSocketGeometry')
     geometry_socket_1.attribute_domain = 'POINT'
-    
+
     #Socket Factor
     factor_socket = mesh_particle_blend.interface.new_socket(name = "Factor", in_out='INPUT', socket_type = 'NodeSocketFloat')
     factor_socket.default_value = 0.0
@@ -25,7 +29,7 @@ def mesh_particle_blend_node_group():
     factor_socket.subtype = 'FACTOR'
     factor_socket.attribute_domain = 'POINT'
     factor_socket.description = "The blend factor between two shapes"
-    
+
     #Socket Seed
     seed_socket = mesh_particle_blend.interface.new_socket(name = "Seed", in_out='INPUT', socket_type = 'NodeSocketFloat')
     seed_socket.default_value = 0.0
@@ -34,7 +38,7 @@ def mesh_particle_blend_node_group():
     seed_socket.subtype = 'NONE'
     seed_socket.attribute_domain = 'POINT'
     seed_socket.description = "The seed for the noise. Is animatable"
-    
+
     #Socket Turbulence
     turbulence_socket = mesh_particle_blend.interface.new_socket(name = "Turbulence", in_out='INPUT', socket_type = 'NodeSocketFloat')
     turbulence_socket.default_value = 1.0
@@ -43,7 +47,7 @@ def mesh_particle_blend_node_group():
     turbulence_socket.subtype = 'NONE'
     turbulence_socket.attribute_domain = 'POINT'
     turbulence_socket.description = "How turbulent the noise is"
-    
+
     #Socket Strength
     strength_socket = mesh_particle_blend.interface.new_socket(name = "Strength", in_out='INPUT', socket_type = 'NodeSocketFloat')
     strength_socket.default_value = 10.0
@@ -52,7 +56,7 @@ def mesh_particle_blend_node_group():
     strength_socket.subtype = 'NONE'
     strength_socket.attribute_domain = 'POINT'
     strength_socket.description = "How far the turbulence will spread. At 0, a linear blend will occur"
-    
+
     #Socket Spread Direction
     spread_direction_socket = mesh_particle_blend.interface.new_socket(name = "Spread Direction", in_out='INPUT', socket_type = 'NodeSocketVector')
     spread_direction_socket.default_value = (1.0, 1.0, 1.0)
@@ -61,23 +65,23 @@ def mesh_particle_blend_node_group():
     spread_direction_socket.subtype = 'NONE'
     spread_direction_socket.attribute_domain = 'POINT'
     spread_direction_socket.description = "The directions in which the particles will spread"
-    
+
     #Socket Merge Vertices
     merge_vertices_socket = mesh_particle_blend.interface.new_socket(name = "Merge Vertices", in_out='INPUT', socket_type = 'NodeSocketBool')
     merge_vertices_socket.default_value = False
     merge_vertices_socket.attribute_domain = 'POINT'
-    
+
     #Socket Use Object
     use_object_socket = mesh_particle_blend.interface.new_socket(name = "Use Object", in_out='INPUT', socket_type = 'NodeSocketBool')
     use_object_socket.default_value = False
     use_object_socket.attribute_domain = 'POINT'
     use_object_socket.description = "Use Objects as Particles"
-    
+
     #Socket Object
     object_socket = mesh_particle_blend.interface.new_socket(name = "Object", in_out='INPUT', socket_type = 'NodeSocketObject')
     object_socket.attribute_domain = 'POINT'
     object_socket.description = "The instance object for the particles"
-    
+
     #Socket Randomize Rotation
     randomize_rotation_socket = mesh_particle_blend.interface.new_socket(name = "Randomize Rotation", in_out='INPUT', socket_type = 'NodeSocketFloat')
     randomize_rotation_socket.default_value = 0.0
@@ -85,7 +89,7 @@ def mesh_particle_blend_node_group():
     randomize_rotation_socket.max_value = 1.0
     randomize_rotation_socket.subtype = 'FACTOR'
     randomize_rotation_socket.attribute_domain = 'POINT'
-    
+
     #Socket Randomize Scale
     randomize_scale_socket = mesh_particle_blend.interface.new_socket(name = "Randomize Scale", in_out='INPUT', socket_type = 'NodeSocketFloat')
     randomize_scale_socket.default_value = 0.0
@@ -93,18 +97,18 @@ def mesh_particle_blend_node_group():
     randomize_scale_socket.max_value = 1.0
     randomize_scale_socket.subtype = 'FACTOR'
     randomize_scale_socket.attribute_domain = 'POINT'
-    
-    
+
+
     #initialize mesh_particle_blend nodes
     #node Group Input
     group_input = mesh_particle_blend.nodes.new("NodeGroupInput")
     group_input.name = "Group Input"
-    
+
     #node Group Output
     group_output = mesh_particle_blend.nodes.new("NodeGroupOutput")
     group_output.name = "Group Output"
     group_output.is_active_output = True
-    
+
     #node Instance on Points
     instance_on_points = mesh_particle_blend.nodes.new("GeometryNodeInstanceOnPoints")
     instance_on_points.name = "Instance on Points"
@@ -114,27 +118,27 @@ def mesh_particle_blend_node_group():
     instance_on_points.inputs[3].default_value = False
     #Instance Index
     instance_on_points.inputs[4].default_value = 0
-    
+
     #node Set Position
     set_position = mesh_particle_blend.nodes.new("GeometryNodeSetPosition")
     set_position.name = "Set Position"
     #Selection
     set_position.inputs[1].default_value = True
-    
+
     #node Named Attribute
     named_attribute = mesh_particle_blend.nodes.new("GeometryNodeInputNamedAttribute")
     named_attribute.name = "Named Attribute"
     named_attribute.data_type = 'FLOAT_VECTOR'
     #Name
     named_attribute.inputs[0].default_value = "pos_1"
-    
+
     #node Named Attribute.001
     named_attribute_001 = mesh_particle_blend.nodes.new("GeometryNodeInputNamedAttribute")
     named_attribute_001.name = "Named Attribute.001"
     named_attribute_001.data_type = 'FLOAT_VECTOR'
     #Name
     named_attribute_001.inputs[0].default_value = "pos_2"
-    
+
     #node Mix
     mix = mesh_particle_blend.nodes.new("ShaderNodeMix")
     mix.name = "Mix"
@@ -143,7 +147,7 @@ def mesh_particle_blend_node_group():
     mix.clamp_result = False
     mix.data_type = 'VECTOR'
     mix.factor_mode = 'UNIFORM'
-    
+
     #node Mix.001
     mix_001 = mesh_particle_blend.nodes.new("ShaderNodeMix")
     mix_001.name = "Mix.001"
@@ -154,7 +158,7 @@ def mesh_particle_blend_node_group():
     mix_001.factor_mode = 'UNIFORM'
     #A_Vector
     mix_001.inputs[4].default_value = (0.0, 0.0, 0.0)
-    
+
     #node Math
     math = mesh_particle_blend.nodes.new("ShaderNodeMath")
     math.name = "Math"
@@ -162,13 +166,13 @@ def mesh_particle_blend_node_group():
     math.use_clamp = False
     #Value_001
     math.inputs[1].default_value = 0.5
-    
+
     #node Math.001
     math_001 = mesh_particle_blend.nodes.new("ShaderNodeMath")
     math_001.name = "Math.001"
     math_001.operation = 'ABSOLUTE'
     math_001.use_clamp = False
-    
+
     #node Math.002
     math_002 = mesh_particle_blend.nodes.new("ShaderNodeMath")
     math_002.name = "Math.002"
@@ -176,7 +180,7 @@ def mesh_particle_blend_node_group():
     math_002.use_clamp = False
     #Value_001
     math_002.inputs[1].default_value = 2.0
-    
+
     #node Math.003
     math_003 = mesh_particle_blend.nodes.new("ShaderNodeMath")
     math_003.name = "Math.003"
@@ -184,23 +188,23 @@ def mesh_particle_blend_node_group():
     math_003.use_clamp = False
     #Value
     math_003.inputs[0].default_value = 1.0
-    
+
     #node Group Input.001
     group_input_001 = mesh_particle_blend.nodes.new("NodeGroupInput")
     group_input_001.name = "Group Input.001"
-    
+
     #node Vector Math
     vector_math = mesh_particle_blend.nodes.new("ShaderNodeVectorMath")
     vector_math.name = "Vector Math"
     vector_math.operation = 'SUBTRACT'
     #Vector_001
     vector_math.inputs[1].default_value = (0.5, 0.5, 0.5)
-    
+
     #node Vector Math.001
     vector_math_001 = mesh_particle_blend.nodes.new("ShaderNodeVectorMath")
     vector_math_001.name = "Vector Math.001"
     vector_math_001.operation = 'SCALE'
-    
+
     #node Noise Texture
     noise_texture = mesh_particle_blend.nodes.new("ShaderNodeTexNoise")
     noise_texture.name = "Noise Texture"
@@ -215,7 +219,7 @@ def mesh_particle_blend_node_group():
     noise_texture.inputs[5].default_value = 2.0
     #Distortion
     noise_texture.inputs[8].default_value = 0.0
-    
+
     #node Reroute
     reroute = mesh_particle_blend.nodes.new("NodeReroute")
     reroute.name = "Reroute"
@@ -225,21 +229,21 @@ def mesh_particle_blend_node_group():
     object_info.transform_space = 'ORIGINAL'
     #As Instance
     object_info.inputs[1].default_value = True
-    
+
     #node Group Input.002
     group_input_002 = mesh_particle_blend.nodes.new("NodeGroupInput")
     group_input_002.name = "Group Input.002"
-    
+
     #node Vector Math.002
     vector_math_002 = mesh_particle_blend.nodes.new("ShaderNodeVectorMath")
     vector_math_002.name = "Vector Math.002"
     vector_math_002.operation = 'ADD'
-    
+
     #node Switch
     switch = mesh_particle_blend.nodes.new("GeometryNodeSwitch")
     switch.name = "Switch"
     switch.input_type = 'GEOMETRY'
-    
+
     #node Mesh to Points
     mesh_to_points = mesh_particle_blend.nodes.new("GeometryNodeMeshToPoints")
     mesh_to_points.name = "Mesh to Points"
@@ -250,11 +254,11 @@ def mesh_particle_blend_node_group():
     mesh_to_points.inputs[2].default_value = (0.0, 0.0, 0.0)
     #Radius
     mesh_to_points.inputs[3].default_value = 0.020000001415610313
-    
+
     #node Group Input.003
     group_input_003 = mesh_particle_blend.nodes.new("NodeGroupInput")
     group_input_003.name = "Group Input.003"
-    
+
     #node Mix.002
     mix_002 = mesh_particle_blend.nodes.new("ShaderNodeMix")
     mix_002.name = "Mix.002"
@@ -265,11 +269,11 @@ def mesh_particle_blend_node_group():
     mix_002.factor_mode = 'NON_UNIFORM'
     #A_Vector
     mix_002.inputs[4].default_value = (0.0, 0.0, 0.0)
-    
+
     #node Group Input.004
     group_input_004 = mesh_particle_blend.nodes.new("NodeGroupInput")
     group_input_004.name = "Group Input.004"
-    
+
     #node Float Curve
     float_curve = mesh_particle_blend.nodes.new("ShaderNodeFloatCurve")
     float_curve.name = "Float Curve"
@@ -297,7 +301,7 @@ def mesh_particle_blend_node_group():
     float_curve.mapping.update()
     #Factor
     float_curve.inputs[0].default_value = 1.0
-    
+
     #node Store Named Attribute
     store_named_attribute = mesh_particle_blend.nodes.new("GeometryNodeStoreNamedAttribute")
     store_named_attribute.name = "Store Named Attribute"
@@ -307,11 +311,11 @@ def mesh_particle_blend_node_group():
     store_named_attribute.inputs[1].default_value = True
     #Name
     store_named_attribute.inputs[2].default_value = "Index"
-    
+
     #node Index
     index = mesh_particle_blend.nodes.new("GeometryNodeInputIndex")
     index.name = "Index"
-    
+
     #node Store Named Attribute.001
     store_named_attribute_001 = mesh_particle_blend.nodes.new("GeometryNodeStoreNamedAttribute")
     store_named_attribute_001.name = "Store Named Attribute.001"
@@ -321,16 +325,16 @@ def mesh_particle_blend_node_group():
     store_named_attribute_001.inputs[1].default_value = True
     #Name
     store_named_attribute_001.inputs[2].default_value = "Position"
-    
+
     #node Position
     position = mesh_particle_blend.nodes.new("GeometryNodeInputPosition")
     position.name = "Position"
-    
+
     #node Vector Math.003
     vector_math_003 = mesh_particle_blend.nodes.new("ShaderNodeVectorMath")
     vector_math_003.name = "Vector Math.003"
     vector_math_003.operation = 'ADD'
-    
+
     #node Random Value
     random_value = mesh_particle_blend.nodes.new("FunctionNodeRandomValue")
     random_value.name = "Random Value"
@@ -343,21 +347,21 @@ def mesh_particle_blend_node_group():
     random_value.inputs[7].default_value = 0
     #Seed
     random_value.inputs[8].default_value = 0
-    
+
     #node Vector Math.004
     vector_math_004 = mesh_particle_blend.nodes.new("ShaderNodeVectorMath")
     vector_math_004.name = "Vector Math.004"
     vector_math_004.operation = 'SCALE'
-    
+
     #node Group Input.005
     group_input_005 = mesh_particle_blend.nodes.new("NodeGroupInput")
     group_input_005.name = "Group Input.005"
-    
+
     #node Vector Math.005
     vector_math_005 = mesh_particle_blend.nodes.new("ShaderNodeVectorMath")
     vector_math_005.name = "Vector Math.005"
     vector_math_005.operation = 'SCALE'
-    
+
     #node Random Value.001
     random_value_001 = mesh_particle_blend.nodes.new("FunctionNodeRandomValue")
     random_value_001.name = "Random Value.001"
@@ -370,7 +374,7 @@ def mesh_particle_blend_node_group():
     random_value_001.inputs[7].default_value = 0
     #Seed
     random_value_001.inputs[8].default_value = 0
-    
+
     #node Mix.003
     mix_003 = mesh_particle_blend.nodes.new("ShaderNodeMix")
     mix_003.name = "Mix.003"
@@ -379,11 +383,11 @@ def mesh_particle_blend_node_group():
     mix_003.clamp_result = False
     mix_003.data_type = 'VECTOR'
     mix_003.factor_mode = 'UNIFORM'
-    
+
     #node Group Input.006
     group_input_006 = mesh_particle_blend.nodes.new("NodeGroupInput")
     group_input_006.name = "Group Input.006"
-    
+
     #node Store Named Attribute.002
     store_named_attribute_002 = mesh_particle_blend.nodes.new("GeometryNodeStoreNamedAttribute")
     store_named_attribute_002.name = "Store Named Attribute.002"
@@ -393,7 +397,7 @@ def mesh_particle_blend_node_group():
     store_named_attribute_002.inputs[1].default_value = True
     #Name
     store_named_attribute_002.inputs[2].default_value = "Factor"
-    
+
     #node Reroute.001
     reroute_001 = mesh_particle_blend.nodes.new("NodeReroute")
     reroute_001.name = "Reroute.001"
@@ -405,22 +409,31 @@ def mesh_particle_blend_node_group():
     merge_by_distance.inputs[1].default_value = True
     #Distance
     merge_by_distance.inputs[2].default_value = 0.0010000000474974513
-    
+
     #node Switch.001
     switch_001 = mesh_particle_blend.nodes.new("GeometryNodeSwitch")
     switch_001.name = "Switch.001"
     switch_001.input_type = 'GEOMETRY'
-    
+
     #node Reroute.002
     reroute_002 = mesh_particle_blend.nodes.new("NodeReroute")
     reroute_002.name = "Reroute.002"
     #node Group Input.007
     group_input_007 = mesh_particle_blend.nodes.new("NodeGroupInput")
     group_input_007.name = "Group Input.007"
-    
-    
-    
-    
+
+    #node Reroute.003
+    reroute_003 = mesh_particle_blend.nodes.new("NodeReroute")
+    reroute_003.name = "Reroute.003"
+    #node Reroute.004
+    reroute_004 = mesh_particle_blend.nodes.new("NodeReroute")
+    reroute_004.name = "Reroute.004"
+    #node Reroute.005
+    reroute_005 = mesh_particle_blend.nodes.new("NodeReroute")
+    reroute_005.name = "Reroute.005"
+
+
+
     #Set locations
     group_input.location = (-867.0204467773438, 98.9465103149414)
     group_output.location = (2990.572021484375, -99.15585327148438)
@@ -466,7 +479,10 @@ def mesh_particle_blend_node_group():
     switch_001.location = (1744.000244140625, 82.4393310546875)
     reroute_002.location = (1425.8958740234375, -50.4803352355957)
     group_input_007.location = (1464.59375, 271.2000427246094)
-    
+    reroute_003.location = (1250.632080078125, -581.4510498046875)
+    reroute_004.location = (1250.632080078125, -540.2052001953125)
+    reroute_005.location = (1250.632080078125, -527.1309814453125)
+
     #Set dimensions
     group_input.width, group_input.height = 140.0, 100.0
     group_output.width, group_output.height = 140.0, 100.0
@@ -512,7 +528,10 @@ def mesh_particle_blend_node_group():
     switch_001.width, switch_001.height = 140.0, 100.0
     reroute_002.width, reroute_002.height = 16.0, 100.0
     group_input_007.width, group_input_007.height = 140.0, 100.0
-    
+    reroute_003.width, reroute_003.height = 16.0, 100.0
+    reroute_004.width, reroute_004.height = 16.0, 100.0
+    reroute_005.width, reroute_005.height = 16.0, 100.0
+
     #initialize mesh_particle_blend links
     #reroute_001.Output -> instance_on_points.Points
     mesh_particle_blend.links.new(reroute_001.outputs[0], instance_on_points.inputs[0])
@@ -550,8 +569,8 @@ def mesh_particle_blend_node_group():
     mesh_particle_blend.links.new(group_input_001.outputs[4], reroute.inputs[0])
     #vector_math_001.Vector -> mix_001.B
     mesh_particle_blend.links.new(vector_math_001.outputs[0], mix_001.inputs[5])
-    #object_info.Geometry -> instance_on_points.Instance
-    mesh_particle_blend.links.new(object_info.outputs[3], instance_on_points.inputs[2])
+    #reroute_003.Output -> instance_on_points.Instance
+    mesh_particle_blend.links.new(reroute_003.outputs[0], instance_on_points.inputs[2])
     #group_input_002.Object -> object_info.Object
     mesh_particle_blend.links.new(group_input_002.outputs[8], object_info.inputs[0])
     #mix_003.Result -> instance_on_points.Scale
@@ -590,22 +609,22 @@ def mesh_particle_blend_node_group():
     mesh_particle_blend.links.new(store_named_attribute.outputs[0], store_named_attribute_001.inputs[0])
     #position.Position -> store_named_attribute_001.Value
     mesh_particle_blend.links.new(position.outputs[0], store_named_attribute_001.inputs[3])
-    #object_info.Rotation -> vector_math_003.Vector
-    mesh_particle_blend.links.new(object_info.outputs[1], vector_math_003.inputs[0])
+    #reroute_005.Output -> vector_math_003.Vector
+    mesh_particle_blend.links.new(reroute_005.outputs[0], vector_math_003.inputs[0])
     #vector_math_004.Vector -> vector_math_003.Vector
     mesh_particle_blend.links.new(vector_math_004.outputs[0], vector_math_003.inputs[1])
     #random_value.Value -> vector_math_004.Vector
     mesh_particle_blend.links.new(random_value.outputs[0], vector_math_004.inputs[0])
     #group_input_005.Randomize Rotation -> vector_math_004.Scale
     mesh_particle_blend.links.new(group_input_005.outputs[9], vector_math_004.inputs[3])
-    #object_info.Scale -> vector_math_005.Vector
-    mesh_particle_blend.links.new(object_info.outputs[2], vector_math_005.inputs[0])
+    #reroute_004.Output -> vector_math_005.Vector
+    mesh_particle_blend.links.new(reroute_004.outputs[0], vector_math_005.inputs[0])
     #random_value_001.Value -> vector_math_005.Scale
     mesh_particle_blend.links.new(random_value_001.outputs[1], vector_math_005.inputs[3])
     #vector_math_005.Vector -> mix_003.B
     mesh_particle_blend.links.new(vector_math_005.outputs[0], mix_003.inputs[5])
-    #object_info.Scale -> mix_003.A
-    mesh_particle_blend.links.new(object_info.outputs[2], mix_003.inputs[4])
+    #reroute_004.Output -> mix_003.A
+    mesh_particle_blend.links.new(reroute_004.outputs[0], mix_003.inputs[4])
     #group_input_006.Randomize Scale -> mix_003.Factor
     mesh_particle_blend.links.new(group_input_006.outputs[10], mix_003.inputs[0])
     #group_input.Geometry -> store_named_attribute_002.Geometry
@@ -624,7 +643,10 @@ def mesh_particle_blend_node_group():
     mesh_particle_blend.links.new(reroute_002.outputs[0], switch_001.inputs[1])
     #group_input_007.Merge Vertices -> switch_001.Switch
     mesh_particle_blend.links.new(group_input_007.outputs[6], switch_001.inputs[0])
+    #object_info.Geometry -> reroute_003.Input
+    mesh_particle_blend.links.new(object_info.outputs[4], reroute_003.inputs[0])
+    #object_info.Scale -> reroute_004.Input
+    mesh_particle_blend.links.new(object_info.outputs[3], reroute_004.inputs[0])
+    #object_info.Rotation -> reroute_005.Input
+    mesh_particle_blend.links.new(object_info.outputs[2], reroute_005.inputs[0])
     return mesh_particle_blend
-
-# mesh_particle_blend = mesh_particle_blend_node_group()
-

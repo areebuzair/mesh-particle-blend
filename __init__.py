@@ -3,8 +3,9 @@ bl_info = {
     "author": "J. M Areeb Uzair",
     "location": "View3D > Object",
     "category": "Object",
-    "version": (1, 0, 0),
+    "version": (2, 0, 0),
     "description": "Creates a point cloud that blends between two meshes using Geometry Nodes",
+    'link': 'https://github.com/areebuzair/mesh-particle-blend',
 }
 
 from mathutils import Vector
